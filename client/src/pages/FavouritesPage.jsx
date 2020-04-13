@@ -3,11 +3,11 @@ import {
   AppBar,
   Container,
   Grid,
+  makeStyles,
   IconButton,
   CircularProgress,
   Button,
 } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AppsRoundedIcon from '@material-ui/icons/AppsRounded';
 import ViewStreamRoundedIcon from '@material-ui/icons/ViewStreamRounded';
@@ -16,14 +16,10 @@ import { MediaCard } from '../components/MediaCard';
 import { FilterBar } from '../components/FilterBar';
 import { SearchBox } from '../components/SearchBox';
 import { getFeed } from '../common/api';
-import { useAuth } from '../context/AuthContext';
 
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: '#f5f5f5',
-  },
-  title: {
-    color: 'white',
   },
   appBar: {
     display: 'flex',
@@ -50,7 +46,7 @@ const useStyles = makeStyles(theme => ({
     color: '#FFFFFF',
   },
   button: {
-    colour: '#FFFFFF',
+    color: '#FFFFFF',
   },
   loader: {
     width: '100%',
@@ -59,9 +55,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export const FeedPage = () => {
+export const FavouritesPage = () => {
   const classes = useStyles();
-  const { signOut } = useAuth();
 
   // state management
   const [layout, setLayout] = React.useState('grid');
@@ -98,7 +93,7 @@ export const FeedPage = () => {
         >
           <div className={classes.appBarContents}>
             <Button
-              className={classes.title}
+              className={classes.button}
               variant="h6"
               component={Link}
               to={'feed'}
@@ -106,7 +101,7 @@ export const FeedPage = () => {
               Feedr
             </Button>
             <Button
-              className={classes.title}
+              className={classes.button}
               variant="h6"
               component={Link}
               to={'favourites'}
@@ -122,9 +117,9 @@ export const FeedPage = () => {
               className={classes.headerButtons}
             >
               {layout === 'grid' ? (
-                <ViewStreamRoundedIcon />
-              ) : (
                 <AppsRoundedIcon />
+              ) : (
+                <ViewStreamRoundedIcon />
               )}
             </IconButton>
             <IconButton
@@ -132,7 +127,6 @@ export const FeedPage = () => {
               to={'/'}
               color="inherit"
               className={classes.headerButtons}
-              onClick={signOut}
             >
               <ExitToAppIcon />
             </IconButton>
@@ -147,8 +141,8 @@ export const FeedPage = () => {
           container
           direction={layout === 'grid' ? 'row' : 'column'}
           spacing={3}
-          alignContent={'center'}
           justify="center"
+          alignContent={'center'}
         >
           {loader && (
             <CircularProgress className={classes.loader}></CircularProgress>

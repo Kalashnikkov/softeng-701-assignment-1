@@ -6,7 +6,9 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonPOJOBuilder;
 import com.google.auto.value.AutoValue;
 import java.util.Date;
+import java.util.Optional;
 
+/** A TwitterData type represents the properties of a tweet */
 @AutoValue
 @JsonInclude(JsonInclude.Include.NON_ABSENT)
 @JsonDeserialize(builder = AutoValue_TwitterData.Builder.class)
@@ -21,6 +23,7 @@ public abstract class TwitterData extends GenericData {
     return Type.TWITTER;
   }
 
+  /** These properties are required for serialization, all posts must contain them. */
   @JsonProperty("tweet")
   public abstract String tweet();
 
@@ -33,6 +36,11 @@ public abstract class TwitterData extends GenericData {
   @JsonProperty("tweetPostDate")
   public abstract Date tweetPostDate();
 
+  /** {@link java.util.Optional} means these properties are NOT required for serialization. */
+  // Tweets can contain multiple images, But only need to display one for now
+  @JsonProperty("imageLink")
+  public abstract Optional<String> tweetMediaURL();
+
   @AutoValue.Builder
   @JsonPOJOBuilder(withPrefix = "")
   public interface Builder {
@@ -43,6 +51,8 @@ public abstract class TwitterData extends GenericData {
     TwitterData.Builder profileUsername(String profileUsername);
 
     TwitterData.Builder tweetPostDate(Date tweetPostDate);
+
+    TwitterData.Builder tweetMediaURL(String tweetMediaURL);
 
     TwitterData build();
   }
